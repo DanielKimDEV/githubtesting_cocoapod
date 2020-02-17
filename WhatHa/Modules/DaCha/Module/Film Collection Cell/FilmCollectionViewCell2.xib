@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="FilmCollectionViewCell2" customModule="WhatHa" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="220" height="353"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="220" height="353"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ers-ol-ple">
+                        <rect key="frame" x="8" y="297" width="204" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UzJ-Cx-FH3">
+                        <rect key="frame" x="0.0" y="0.0" width="220" height="289.5"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총점 6.4/10" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TwW-8E-EcF" userLabel="Film Rating Label">
+                        <rect key="frame" x="8" y="323" width="204" height="13.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="TwW-8E-EcF" firstAttribute="top" secondItem="Ers-ol-ple" secondAttribute="bottom" constant="5.5" id="0bl-X2-rYO"/>
+                <constraint firstAttribute="trailing" secondItem="TwW-8E-EcF" secondAttribute="trailing" constant="8" id="1Wc-0G-4Ik"/>
+                <constraint firstItem="UzJ-Cx-FH3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="3Fg-1q-RVy"/>
+                <constraint firstItem="TwW-8E-EcF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="a3h-oZ-D5t"/>
+                <constraint firstAttribute="bottom" secondItem="TwW-8E-EcF" secondAttribute="bottom" constant="16.5" id="gr1-3r-Blt"/>
+                <constraint firstItem="Ers-ol-ple" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="hkF-WH-eUG"/>
+                <constraint firstItem="UzJ-Cx-FH3" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="iIO-H9-nXQ"/>
+                <constraint firstAttribute="trailing" secondItem="UzJ-Cx-FH3" secondAttribute="trailing" id="mKL-MD-ULV"/>
+                <constraint firstAttribute="trailing" secondItem="Ers-ol-ple" secondAttribute="trailing" constant="8" id="nia-V9-opb"/>
+                <constraint firstItem="Ers-ol-ple" firstAttribute="top" secondItem="UzJ-Cx-FH3" secondAttribute="bottom" constant="7.5" id="z0k-vd-VQA"/>
+            </constraints>
+            <size key="customSize" width="220" height="353"/>
+            <connections>
+                <outlet property="filmPosterImageView" destination="UzJ-Cx-FH3" id="zvP-yP-hxJ"/>
+                <outlet property="filmRaitingLabel" destination="TwW-8E-EcF" id="cjF-pz-mnk"/>
+                <outlet property="filmTitleLabel" destination="Ers-ol-ple" id="EN5-Bm-rZc"/>
+            </connections>
+            <point key="canvasLocation" x="-348.80000000000001" y="-23.838080959520241"/>
+        </collectionViewCell>
+    </objects>
+</document>

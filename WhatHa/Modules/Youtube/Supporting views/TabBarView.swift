@@ -1,0 +1,91 @@
+//  MIT License
+
+
+import UIKit
+import SnapKit
+
+class TabBarView: UIView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    //MARK: Properties
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var whiteBar: UIView!
+    @IBOutlet weak var whiteBarLeadingConstraint: NSLayoutConstraint!
+    private let tabBarImages = ["home_tabbar_night_32x32_", "mine_tabbar_night_32x32_"]
+    var selectedIndex = 0
+    
+    //MARK: Methods
+    func customization() {
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.backgroundColor = RedColor
+        NotificationCenter.default.addObserver(self, selector: #selector(self.animateMenu(notification:)), name: Notification.Name.init(rawValue: "scrollMenu"), object: nil)
+        self.whiteBar.snp.removeConstraints()
+        self.whiteBar.snp.updateConstraints{ m in
+            m.bottom.equalToSuperview()
+            m.width.equalTo(self.bounds.width/2)
+        }
+        self.whiteBar.isHidden = true
+        self.layoutIfNeeded()
+    }
+    
+    @objc func animateMenu(notification: Notification) {
+        if let info = notification.userInfo {
+            let userInfo = info as! [String: CGFloat]
+            self.whiteBarLeadingConstraint.constant = self.whiteBar.bounds.width * userInfo["length"]!
+            self.selectedIndex = Int(round(userInfo["length"]!))
+            self.layoutIfNeeded()
+            self.collectionView.reloadData()
+        }
+    }
+    
+    //MARK: Delegates
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.tabBarImages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! TabBarCellCollectionViewCell
+        var imageName = self.tabBarImages[indexPath.row]
+//        if self.selectedIndex == indexPath.row {
+//            imageName += "Selected"
+//        }
+        if(self.selectedIndex == indexPath.row) {
+            switch indexPath.row {
+            case 0:
+                imageName = "home_tabbar_press_32x32_"
+            case 1:
+                imageName = "mine_tabbar_press_32x32_"
+            default:
+                break;
+            }
+        }
+        cell.icon.image = UIImage.init(named: imageName)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize.init(width: collectionView.bounds.width / 2, height: collectionView.bounds.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if self.selectedIndex != indexPath.row {
+            self.selectedIndex = indexPath.row
+            NotificationCenter.default.post(name: Notification.Name.init(rawValue: "didSelectMenu"), object: nil, userInfo: ["index": self.selectedIndex])
+        }
+    }
+    
+    //MARK: View LifeCycle
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.customization()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
+//TabBarCell Class
+class TabBarCellCollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var icon: UIImageView!
+}

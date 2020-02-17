@@ -1,0 +1,65 @@
+//
+//  HomeDataController.swift
+//  WhatFilm
+//
+//  Created by Jason Kim on 13/09/2018.
+//  Copyright © 2018 Jason Kim. All rights reserved.
+//
+
+import UIKit
+import RxSwift
+import RxCocoa
+import Alamofire
+import SwiftyJSON
+
+public final class SearchViewModel: NSObject {
+    
+    // MARK: - Properties
+    
+    let disposaBag: DisposeBag = DisposeBag()
+    
+    // Input
+    let textSearchTrigger: PublishSubject<String> = PublishSubject()
+    let nextPageTrigger: PublishSubject<Void> = PublishSubject()
+    
+    // Output
+    lazy private(set) var films: Observable<[Film]> = self.setupFilms()
+    lazy private(set) var isLoading: PublishSubject<Bool> = PublishSubject()
+    
+    // MARK: - Initializer
+    
+    override init() {
+        super.init()
+        self.setupIsLoading()
+    }
+    
+    // MARK: - Reactive Setup
+    
+    fileprivate func setupIsLoading() {
+        self.films
+            .subscribe(onNext: { [weak self] (films) in
+                self?.isLoading.on(.next(false))
+            }, onError: { [weak self] (error) in
+                self?.isLoading.on(.next(false))
+            }, onCompleted: { [weak self] in
+                self?.isLoading.on(.next(false))
+            }, onDisposed: { [weak self] in
+                self?.isLoading.on(.next(false))
+            }).addDisposableTo(self.disposaBag)
+    }
+    
+    fileprivate func setupFilms() -> Observable<[Film]> {
+        
+        let trigger = self.nextPageTrigger.asObservable().debounce(0.2, scheduler: MainScheduler.instance)
+        
+        return self.textSearchTrigger
+            .asObservable()
+            .debounce(0.3, scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .flatMapLatest { [weak self] (query) -> Observable<[Film]> in
+                self?.isLoading.on(.next(true))
+                return TMDbAPI.instance.films(withTitle: query, loadNextPageTrigger: trigger)
+            }
+            .shareReplay(1)
+    }
+}
