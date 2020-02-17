@@ -1,0 +1,51 @@
+on: [push]
+name: Test
+jobs:
+  test:
+    name: Test
+    runs-on: macOS-latest
+    strategy:
+        matrix:
+          xcode: [11.3]
+          destination: ['platform=iOS Simulator,OS=13.2,name=iPhone 11']
+    steps:
+#      - uses: YOCKOW/Action-setup-swift@master
+#        with:
+#          swift-version: '5.1.2' # This value is passed to swiftenv without modification.
+#      - run: swift --version
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Cache
+      - uses: actions/cache@v1
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      - name: Github Action test
+        id: test_app
+        run: bundle exec fastlane scan --destination "${destination}" --scheme "
+        env:
+          destination: ${{ matrix.destination }}
+#        - name: iOS test
+#          id: ios_test
+#          run: |
+#                 xcodebuild clean build \
+#                 -workspace BizTalk.xcworkspace \
+#                 -scheme Repository \
+#                 -destination "${destination}" \
+#                 -configuration Debug \
+#                 CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO test | xcpretty -c; echo "::set-output name=result::${PIPESTATUS[0]}"; echo "${PIPESTATUS[0]}"
+#          env: destination: ${{ matrix.destination }}
+#  build:
+#
+#    runs-on: macOS-latest
+#
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Build
+#      run: swift build -v
+#    - name: Run tests
+#      run: swift test -v
+
+
